@@ -350,7 +350,8 @@ The Day 1 Task Manager successfully implements a basic task management system us
 
 The project demonstrates how tasks can be represented as nodes and connected using references. It also implements insertion, deletion, updating, and traversal operations.
 
+The implementation provides the foundation for adding Hashing, Binary Search, and Recursion in the next stages of the project.
+
 ## Demo video:
 https://drive.google.com/file/d/15QRANzehMzB5ChC1PZjsSoc2nMMH6g80/view?usp=sharing
 
-The implementation provides the foundation for adding Hashing, Binary Search, and Recursion in the next stages of the project.
