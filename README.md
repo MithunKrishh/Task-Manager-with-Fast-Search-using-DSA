@@ -1,58 +1,164 @@
 # Project 3: Task Manager with Fast Search
 
+## Day 1: Task System
+
 ## 1. Project Description
 
 The Task Manager is a simple console-based Python application designed to help students manage their assignments and activities.
 
-Each task contains:
+Each task contains four details:
 
 * Task ID
 * Task Name
 * Priority
 * Status
 
-The application allows users to add, delete, update, display, and search tasks.
+The Day 1 implementation focuses on creating the basic task management system using a custom Linked List.
 
-The main purpose of this project is to demonstrate the practical use of different Data Structures and Algorithms (DSA) concepts.
+The current version supports:
 
-The DSA concepts used are:
+1. Add Task
+2. Delete Task
+3. Update Task Status
+4. Display Tasks
 
-1. Linked List
-2. Hashing
-3. Binary Search
-4. Recursion
-
----
-
-## 2. Features
-
-The application provides the following operations:
-
-1. Add a Task
-2. Delete a Task by Task ID
-3. Find a Task by Task ID
-4. Find a Task by Task Name
-5. Update Task Status
-6. Display All Tasks
-7. Count Pending Tasks Recursively
-8. Find the First Task with a Given Priority Recursively
-9. Exit
+The Linked List is used to store and traverse all tasks.
 
 ---
 
-## 3. DSA Concepts Used
+## 2. Objectives
 
-### 3.1 Linked List
+The main objectives of Day 1 are:
 
-A custom linked list is used to store and manage tasks.
+* Create a task structure.
+* Implement a custom Linked List.
+* Add tasks to the Linked List.
+* Delete tasks from the Linked List.
+* Update the status of a task.
+* Display all tasks by traversing the Linked List.
+* Handle basic edge cases.
 
-Each task is represented as a node containing:
+---
 
-* Task ID
-* Task Name
-* Priority
-* Status
-* Reference to the next task
+## 3. DSA Concept Used
+
+### Linked List
+
+A Linked List is used as the main data structure for storing tasks.
+
+Each task is represented as a node.
+
+Each node contains:
+
+```text
+Task ID
+Task Name
+Priority
+Status
+Next
+```
+
+The `next` field stores the reference to the next task.
+
+The structure looks like:
+
+```text
+HEAD
+ |
+ v
++---------+     +---------+     +---------+
+| Task 1  | --> | Task 2  | --> | Task 3  | --> None
++---------+     +---------+     +---------+
+```
+
+The `head` variable stores the first task in the Linked List.
+
+---
+
+## 4. Task Structure
+
+The `Task` class represents one node of the Linked List.
+
+```python
+class Task:
+
+    def __init__(self, task_id, name, priority, status):
+        self.task_id = task_id
+        self.name = name
+        self.priority = priority
+        self.status = status
+        self.next = None
+```
+
+For example:
+
+```text
+ID       : 1
+Name     : Complete Assignment
+Priority : High
+Status   : Pending
+Next     : Next Task
+```
+
+---
+
+## 5. Operations
+
+### 5.1 Add Task
+
+The `add_task()` function creates a new task node and adds it to the end of the Linked List.
+
+Before adding the task, the program checks whether the Task ID already exists.
+
+Example:
+
+```text
+1
+Complete Assignment
+High
+Pending
+```
+
+The new node is added to the list.
+
+### 5.2 Delete Task
+
+The `delete_task()` function searches for a Task ID and removes the corresponding node.
+
+There are two cases:
+
+1. The task is the first node.
+2. The task is somewhere after the first node.
+
+When deleting a node, the previous node's `next` reference is changed to skip the deleted node.
+
+Example:
+
+```text
+Before:
+
+Task 1 -> Task 2 -> Task 3 -> None
+
+Delete Task 2:
+
+Task 1 ------------> Task 3 -> None
+```
+
+### 5.3 Update Task Status
+
+The `update_status()` function searches for the Task ID.
+
+When the task is found, its status is changed.
+
+Example:
+
+```text
+Pending -> Done
+```
+
+### 5.4 Display Tasks
+
+The `display_tasks()` function starts at the `head` and traverses the Linked List until it reaches `None`.
 
 Example:
 
@@ -60,234 +166,86 @@ Example:
 HEAD
  |
  v
-[Task 1] -> [Task 2] -> [Task 3] -> None
+Task 1 -> Task 2 -> Task 3 -> None
 ```
 
-The linked list is traversed when displaying all tasks.
-
-### Why Linked List?
-
-The project specifically requires tasks to be stored and traversed using a linked list. It also provides practical experience with nodes, pointers/references, insertion, deletion, and traversal.
+Every task is printed during traversal.
 
 ---
 
-### 3.2 Hashing
+## 6. Algorithm Approach
 
-A Python dictionary is used as a hash table for Task ID lookup.
+### Add Task
 
-```python
-self.task_hash = {}
-```
+1. Start from the head.
+2. Check whether the Task ID already exists.
+3. Create a new Task node.
+4. If the list is empty, make the new node the head.
+5. Otherwise, traverse to the last node.
+6. Connect the last node to the new node.
 
-Each Task ID is mapped to its corresponding task node.
+### Delete Task
 
-Example:
+1. Check whether the list is empty.
+2. Check whether the head contains the requested ID.
+3. If yes, move the head to the next node.
+4. Otherwise, traverse the list.
+5. Find the node whose next node contains the requested ID.
+6. Skip that node.
+7. If the ID is not found, display an error message.
 
-```text
-1 -> Task 1
-2 -> Task 2
-3 -> Task 3
-```
+### Update Status
 
-This allows a task to be found quickly using its ID.
+1. Start from the head.
+2. Traverse the list.
+3. Compare each Task ID with the requested ID.
+4. If found, update its status.
+5. If not found, display an error message.
 
-### Why Hashing?
+### Display Tasks
 
-Task IDs are unique, making them suitable as hash keys.
-
-The average time complexity for searching by ID is:
-
-```text
-O(1)
-```
-
----
-
-### 3.3 Binary Search
-
-A separate collection of task nodes is maintained in sorted order by task name.
-
-Binary Search is then used to find a task by its name.
-
-The algorithm compares the search name with the middle element.
-
-If the search name is smaller, the left half is searched.
-
-If the search name is larger, the right half is searched.
-
-Example:
-
-```text
-Complete Assignment
-Practice DSA
-Read Chapter 5
-```
-
-If searching for `Read Chapter 5`, binary search eliminates unnecessary elements instead of checking every task.
-
-### Why Binary Search?
-
-Binary search is much faster than linear search when the data is sorted.
-
-Time complexity:
-
-```text
-O(log n)
-```
+1. Start from the head.
+2. Check whether the list is empty.
+3. Print the current task.
+4. Move to the next node.
+5. Continue until `None`.
 
 ---
 
-### 3.4 Recursion
+## 7. Complexity Analysis
 
-Recursion is used for two operations.
+Let `n` be the number of tasks.
 
-#### Count Pending Tasks
+| Operation     | Time Complexity | Space Complexity |
+| ------------- | --------------: | ---------------: |
+| Add Task      |            O(n) |             O(1) |
+| Delete Task   |            O(n) |             O(1) |
+| Update Status |            O(n) |             O(1) |
+| Display Tasks |            O(n) |             O(1) |
 
-The program recursively traverses the linked list and counts tasks whose status is `Pending`.
+### Explanation
 
-Example:
+**Add Task:**
+The program traverses the list to check for duplicate IDs and then reaches the last node. Therefore, the worst-case time complexity is O(n).
 
-```text
-Task 1 -> Pending
-Task 2 -> Done
-Task 3 -> Pending
-```
+**Delete Task:**
+The program may need to search the entire list for the requested ID. Therefore, the worst-case complexity is O(n).
 
-Result:
+**Update Status:**
+The program searches the list for the Task ID, so the worst-case complexity is O(n).
 
-```text
-2 pending tasks
-```
-
-#### Priority-Based Search
-
-Recursion is also used to find the first task matching a selected priority.
-
-For example:
-
-```text
-Search Priority: High
-```
-
-The program checks each linked-list node recursively until a matching task is found.
-
-### Base Case
-
-The base case occurs when the current node is `None`.
-
-```python
-if node is None:
-    return 0
-```
-
-or:
-
-```python
-if node is None:
-    return None
-```
-
-This stops the recursion when there are no more tasks.
+**Display Tasks:**
+Every node must be visited, giving O(n).
 
 ---
 
-# 4. Approach
+## 8. Edge Cases
 
-The application maintains three structures:
+The following cases are handled:
 
-```text
-                  Task Manager
-                       |
-        +--------------+--------------+
-        |              |              |
-   Linked List     Hash Table     Sorted Collection
-        |              |              |
-   Store Tasks     ID Lookup       Name Search
-        |              |              |
-    O(n)            O(1)*          Binary Search
-                                      O(log n)
-```
+### Empty Linked List
 
-### Adding a Task
-
-1. Check whether the Task ID already exists.
-2. Create a new task node.
-3. Add the node to the linked list.
-4. Add the task to the hash table.
-5. Add the task to the sorted collection.
-6. Sort the collection by task name.
-
-### Deleting a Task
-
-1. Check whether the Task ID exists.
-2. Locate the corresponding node.
-3. Remove it from the linked list.
-4. Remove it from the hash table.
-5. Remove it from the sorted collection.
-
-### Finding by ID
-
-The Task ID is used as a key in the hash table.
-
-```text
-Task ID -> Hash Table -> Task
-```
-
-### Finding by Name
-
-The sorted task collection is searched using Binary Search.
-
-### Updating Status
-
-The hash table is used to locate the task quickly, and its status is modified.
-
-### Displaying Tasks
-
-The linked list is traversed from the head node until `None`.
-
-### Counting Pending Tasks
-
-The linked list is recursively traversed and every `Pending` task is counted.
-
----
-
-# 5. Complexity Analysis
-
-| Operation          | Technique                       | Time Complexity |
-| ------------------ | ------------------------------- | --------------: |
-| Add Task           | Linked List + Hashing + Sorting |           O(n²) |
-| Delete Task        | Linked List + Hashing           |            O(n) |
-| Find by ID         | Hashing                         |    O(1) average |
-| Find by Name       | Binary Search                   |        O(log n) |
-| Update Status      | Hashing                         |    O(1) average |
-| Display Tasks      | Linked List                     |            O(n) |
-| Count Pending      | Recursion                       |            O(n) |
-| Search by Priority | Recursion                       |            O(n) |
-| Sort Task Names    | Bubble Sort                     |           O(n²) |
-
-`n` represents the number of tasks.
-
-### Space Complexity
-
-The application stores the tasks in multiple structures.
-
-The overall additional space is:
-
-```text
-O(n)
-```
-
-because the linked list, hash table, and sorted collection each store references to the tasks.
-
----
-
-# 6. Edge Cases Handled
-
-The application handles the following edge cases:
-
-### Empty Task List
-
-If there are no tasks, displaying tasks produces:
+If there are no tasks:
 
 ```text
 No tasks available.
@@ -295,55 +253,41 @@ No tasks available.
 
 ### Duplicate Task ID
 
-If a user enters an existing Task ID:
+If the user tries to add an existing Task ID:
 
 ```text
 Task ID already exists.
 ```
 
-The task is not added.
+### Delete Missing Task
 
-### Missing Task ID
-
-If a user searches for an ID that does not exist:
+If the requested Task ID does not exist:
 
 ```text
 Task not found.
 ```
 
-### Deleting a Missing Task
+### Update Missing Task
 
-If the user tries to delete a nonexistent task:
+If the requested Task ID does not exist:
 
 ```text
 Task not found.
 ```
 
-### No Pending Tasks
+### Delete First Node
 
-The recursive pending counter returns:
+The program correctly updates the `head` when the first task is deleted.
 
-```text
-Number of pending tasks: 0
-```
+### Delete Last Node
 
-### All Tasks Pending
-
-The recursive function counts every task and returns the total number of tasks.
-
-### Duplicate Task Names
-
-The program can store tasks with duplicate names. Binary Search returns a matching task if the searched name exists.
-
-### Empty Linked List
-
-The linked-list head is `None`, which is also the base case for recursive operations.
+The previous node is connected to `None`.
 
 ---
 
-# 7. Example Tasks
+## 9. Example Data
 
-The following tasks can be used during the demonstration:
+The following data can be used for testing:
 
 | ID | Task Name           | Priority | Status  |
 | -: | ------------------- | -------- | ------- |
@@ -353,37 +297,57 @@ The following tasks can be used during the demonstration:
 
 ---
 
-# 8. How to Run
+## 10. How to Run
 
 Make sure Python is installed.
 
-Open the terminal in the project folder and run:
+Open the terminal in the project directory and run:
 
 ```bash
 python task_manager.py
 ```
 
-The program will display the main menu.
+The program will display:
 
 ```text
 ========== TASK MANAGER ==========
 1. Add Task
 2. Delete Task
-3. Find Task by ID
-4. Find Task by Name
-5. Update Task Status
-6. Display All Tasks
-7. Count Pending Tasks
-8. Find Task by Priority
-9. Exit
+3. Update Task Status
+4. Display Tasks
+5. Exit
 ```
+
+Enter the corresponding number to perform an operation.
 
 ---
 
-# 9. Conclusion
+## 11. Current Project Scope
 
-This project demonstrates how different DSA concepts can work together in a real-world application.
+This is the Day 1 implementation.
 
-The Linked List manages the task collection, Hashing provides fast Task ID lookup, Binary Search provides efficient task-name searching, and Recursion is used for counting and condition-based searching.
+Future stages will add:
 
-The project also demonstrates handling common edge cases such as duplicate IDs, missing tasks, and an empty task list.
+### Day 2
+
+* Hashing for Task ID lookup
+* Sorted task-name collection
+* Binary Search for task-name lookup
+
+### Day 3
+
+* Recursive pending-task counting
+* Recursive condition-based search
+* Additional testing
+* Final complexity analysis
+* Final demonstration
+
+---
+
+## 12. Conclusion
+
+The Day 1 Task Manager successfully implements a basic task management system using a custom Linked List.
+
+The project demonstrates how tasks can be represented as nodes and connected using references. It also implements insertion, deletion, updating, and traversal operations.
+
+The implementation provides the foundation for adding Hashing, Binary Search, and Recursion in the next stages of the project.
