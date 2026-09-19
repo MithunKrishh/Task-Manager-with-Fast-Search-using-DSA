@@ -29,7 +29,7 @@ python task_manager.py
 
 The menu appears:
 
-```text
+```Text
 ========== TASK MANAGER ==========
 1. Add Task
 2. Delete Task
