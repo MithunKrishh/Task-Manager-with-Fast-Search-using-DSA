@@ -1,5 +1,5 @@
 # Project 3: Task Manager
-# Day 1 - Task System
+# Day 1 - Task  management System
 # Linked List Implementation
 #
 # Features:
